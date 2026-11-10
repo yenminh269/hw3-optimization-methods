@@ -1,45 +1,5 @@
-# ============================================================================
-# CONFIGURATION
-# ============================================================================
- 
-VIEW_TYPE = 1  # 1 = B/W, 2 = Color
- 
-PARAM_A = 0.5
-PARAM_B = 10.0
- 
-THETA_INIT = np.array([9.0, 1.5])
- 
-NUM_STEPS = 250
- 
-# Standard GD
-ETA_GD = 0.085
- 
-# Decay GD
-ETA_DECAY_INIT = 0.085
-GAMMA_DECAY = 0.96
- 
-# Momentum
-ETA_MOM = 0.045
-BETA_MOM = 0.85
- 
-# AdaGrad
-ETA_ADAGRAD = 1.20
-EPS_ADAGRAD = 1e-8
- 
-# RMSProp
-ETA_RMSPROP = 0.25
-GAMMA_RMSPROP = 0.90
-EPS_RMSPROP = 1e-8
- 
-# Adam
-ETA_ADAM = 0.35
-BETA1_ADAM = 0.85
-BETA2_ADAM = 0.99
-EPS_ADAM = 1e-8
 
- 
 import numpy as np
- 
  
 class Optimizer:
     def reset(self):
@@ -112,7 +72,6 @@ class Nesterov(Optimizer):
         )
  
         return self.velocity
- 
  
 class Adagrad(Optimizer):
     def __init__(self, lr=0.1, eps=1e-8):

@@ -1,0 +1,97 @@
+
+Hyperparameter Exploration
+step 2: All 7 optimizers meet the validation requirement:
+optimizers = [
+    GradientDescent(lr=0.1),
+    Momentum(lr=0.05, beta=0.9),
+    Nesterov(lr=0.05, beta=0.9),
+    Adagrad(lr=1.0),
+    RMSprop(lr=0.1, beta=0.9),
+    Adam(lr=0.1),
+    AdamW(lr=0.1, weight_decay=0.001),
+]
+
+theta_init=np.array([5.0, 5.0]),
+objective_fn=sphere,
+grad_fn=sphere_gradient
+
+result:
+Gradient Descent: loss=1.072625e-15, iterations=86, theta=[2.31584178e-08 2.31584178e-08]
+Momentum: loss=9.183241e-14, iterations=322, theta=[-2.14280668e-07 -2.14280668e-07]
+Nesterov: loss=2.065775e-14, iterations=168, theta=[-1.01631082e-07 -1.01631082e-07]
+Adagrad: loss=6.612176e-15, iterations=162, theta=[5.74985892e-08 5.74985892e-08]
+RMSProp: loss=4.948055e-19, iterations=95, theta=[4.97395993e-10 4.97395993e-10]
+Adam: loss=1.543778e-13, iterations=332, theta=[2.77828916e-07 2.77828916e-07]
+AdamW: loss=8.995662e-12, iterations=294, theta=[-2.12080899e-06 -2.12080899e-06]
+
+step 3: running rorsenbrock
+optimizers = [
+    GradientDescent(lr=0.002),
+    Momentum(lr=0.002, beta=0.9),
+    Nesterov(lr=0.001, beta=0.9),
+    Adagrad(lr=1.0),
+    RMSprop(lr=0.01, beta=0.9),
+    Adam(lr=0.1),
+    AdamW(lr=0.1, weight_decay=0.0001),
+]
+
+results = []
+ 
+for opt in optimizers:
+  result = run_optimizer(
+    opt,
+    theta_init=np.array([-1.5, 2.0]),
+    objective_fn=rosenbrock,
+    grad_fn=rosenbrock_gradient)
+
+result:
+
+Gradient Descent: loss=2.319766e-04, iterations=1000, theta=[0.98478163 0.96973339]distance_to_minimum=1.147666e-03
+Momentum: loss=4.249654e-10, iterations=1000, theta=[0.9999794  0.99995872]distance_to_minimum=2.128193e-09
+Nesterov: loss=2.340829e-05, iterations=1000, theta=[0.99516568 0.99033533]distance_to_minimum=1.167765e-04
+Adagrad: loss=9.608041e-01, iterations=1000, theta=[0.01979548 0.00021259]distance_to_minimum=1.960376e+00
+RMSProp: loss=5.174406e-02, iterations=1000, theta=[0.81021526 0.66898903]distance_to_minimum=1.455865e-01
+Adam: loss=6.590787e-07, iterations=1000, theta=[0.99918851 0.9983753 ]distance_to_minimum=3.298150e-06
+AdamW: loss=2.327136e-06, iterations=1000, theta=[0.998475   0.99694843]distance_to_minimum=1.163767e-05
+
+Best Hyperparameters
+Optimizer	Loss	Distance
+1.Momentum	4.25e-10	2.13e-09
+2.Adam	6.59e-07	3.30e-06
+3	AdamW	2.33e-06	1.16e-05
+4	Nesterov	2.34e-05	1.17e-04
+5	Gradient Descent	2.32e-04	1.15e-03
+6	RMSprop	5.17e-02	1.46e-01
+7	Adagrad	9.61e-01	1.96
+ 
+step 4:
+learning rates were tuned experimentally by evaluating each optimizer on the 
+Rosenbrock function over a candidate range of values. The configuration yielding the 
+lowest final objective value after 1000 iterations was selected for the final comparison.
+ 
+4.Deliverables:
+A. The convergence plot on rosenberock
+
+D. The written analysis report: 
+1.
+2.
+3. Did Adagrad experience premature stalling?
+Yes. Adagrad accumulated squared gradients throughout optimization, 
+continuously reducing the effective learning rate. 
+As a result, updates became increasingly small and the algorithm stalled far from the optimum.
+ 
+4. Failure Modes: Maximum Stable Learning Rates
+Based on your experiments:
+Optimizer	Largest Stable LR Observed
+GD	      0.002
+Momentum	0.002
+Nesterov	0.001
+Adagrad	1.0
+RMSprop	0.05
+Adam	0.1
+AdamW	0.1
+ 
+GD diverged at 0.005
+Momentum diverged at 0.005
+Nesterov diverged at 0.002
+ 

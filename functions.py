@@ -1,14 +1,14 @@
 import numpy as np
 
-#verification functions
+#benchmark test  functions
 def sphere(theta):
-  x1, x2 = theta
-  return x1**2 + x2**2
+  x, y = theta
+  return x**2 + y**2
 
 def sphere_gradient(theta):
-  x1, x2 = theta
+  x, y = theta
 
-  return np.array([2 * x1, 2 * x2])
+  return np.array([2 * x, 2 * y])
 
 def rosenbrock(theta):
   beta, gamma = theta
